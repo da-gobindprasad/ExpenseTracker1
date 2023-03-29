@@ -61,3 +61,11 @@ def deleteView(request, id):
         expense = Expense.objects.get(id=id)
         expense.delete()
     return redirect('index')
+
+
+def loginView(request):
+    return render(request, 'myapp/login.html')
+
+
+def registerView(request):
+    return render(request, 'myapp/register.html')
