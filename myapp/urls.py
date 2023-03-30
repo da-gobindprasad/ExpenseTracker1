@@ -6,8 +6,4 @@ urlpatterns = [
     path('', views.indexView, name='index'),
     path('edit/<int:id>/', views.editView, name='edit'),
     path('delete/<int:id>/', views.deleteView, name='delete'),
-    path('login/', views.loginView, name='login'),
-    path('register/', views.registerView, name='register'),
-
-
 ]
