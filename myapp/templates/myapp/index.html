@@ -1,5 +1,4 @@
-{% extends 'myapp/base.html' %} {% load static %} {% load humanize %} {% block title %} Index page {% endblock %} {% block body %}
-
+{% extends 'myapp/base.html' %} {% load static %} {% load humanize %} {% block title %} Index page {% endblock %} {% block body %} {% if user.is_authenticated and user.is_staff and user.is_superuser %}
 <!-- Header cards -->
 <div class="flex m-10">
     <div class="block shadow-lg m-5 w-1/4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -301,4 +300,4 @@
         }
     });
 </script>
-{% endblock %}
+{% endif %} {% endblock %}

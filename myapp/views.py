@@ -10,7 +10,10 @@ def indexView(request):
     if request.method == 'POST':
         expense = expenseForm(request.POST)
         if expense.is_valid():
-            expense.save()
+            instance = expense.save(commit=False)
+            instance.staff = request.user
+            instance.save()
+            return redirect('index')
 
     expenses = Expense.objects.all()
     total_expense = expenses.aggregate(Sum('amount'))
