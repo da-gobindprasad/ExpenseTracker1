@@ -15,30 +15,32 @@ def indexView(request):
             instance.save()
             return redirect('index')
 
-    expenses = Expense.objects.all()
+    # expenses = Expense.objects.all()
+    expenses = Expense.objects.filter(staff=request.user)
+
     total_expense = expenses.aggregate(Sum('amount'))
 
     last_year = datetime.date.today() - datetime.timedelta(days=365)
-    data = Expense.objects.filter(date__gt=last_year)
+    data = Expense.objects.filter(date__gt=last_year, staff=request.user)
     yearly_sum = data.aggregate(Sum('amount'))
 
     today1 = datetime.date.today() - datetime.timedelta(days=1)
-    data = Expense.objects.filter(date__gt=today1)
+    data = Expense.objects.filter(date__gt=today1, staff=request.user)
     today_sum = data.aggregate(Sum('amount'))
 
     last_month = datetime.date.today() - datetime.timedelta(days=30)
-    data1 = Expense.objects.filter(date__gt=last_month)
+    data1 = Expense.objects.filter(date__gt=last_month, staff=request.user)
     monthly_sum = data1.aggregate(Sum('amount'))
     print(monthly_sum)
 
     last_week = datetime.date.today() - datetime.timedelta(days=7)
-    data2 = Expense.objects.filter(date__gt=last_week)
+    data2 = Expense.objects.filter(date__gt=last_week, staff=request.user)
     weekly_sum = data2.aggregate(Sum('amount'))
 
-    daily_sums = Expense.objects.filter().values(
+    daily_sums = Expense.objects.filter(staff=request.user).values(
         'date').order_by('date').annotate(sum=Sum('amount'))
 
-    category_sums = Expense.objects.filter().values(
+    category_sums = Expense.objects.filter(staff=request.user).values(
         'category').order_by('category').annotate(sum=Sum('amount'))
     print(category_sums)
 

@@ -1,4 +1,4 @@
-{% extends 'myapp/base.html' %} {% load static %} {% load humanize %} {% block title %} Index page {% endblock %} {% block body %} {% if user.is_authenticated and user.is_staff and user.is_superuser %}
+{% load static %} {% load humanize %}
 <!-- Header cards -->
 <div class="flex m-10">
     <div class="block shadow-lg m-5 w-1/4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -6,7 +6,6 @@
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">This Year Expense</h5>
             <p class="font-normal text-gray-700 dark:text-gray-400">₹{{yearly_sum.amount__sum }}</p>
         </a>
-
     </div>
 
     <div class="block shadow-lg m-5 w-1/4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -14,7 +13,6 @@
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">This Month Expense</h5>
             <p class="font-normal text-gray-700 dark:text-gray-400">₹{{monthly_sum.amount__sum }}</p>
         </a>
-
     </div>
 
     <div class="block shadow-lg m-5 w-1/4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -71,6 +69,8 @@
         </div>
     </div>
 </form>
+
+
 <!-- Expense List -->
 <div class="m-10">
     <h1>Expenses</h1>
@@ -102,13 +102,13 @@
             </thead>
             <hr>
             <tbody>
-                {% for expense in expenses %}
+                {% for expense in expenses %} {% if expense.staff == user %}
 
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{expense.name}}
                     </th>
-                    <td class="px-6 py-4">₹{{expense.amount|intcomma}}
+                    <td class="px-6 py-4">₹{{expense.amount}}
                     </td>
                     <td class="px-6 py-4">
                         {{expense.category}}
@@ -131,7 +131,7 @@
                         </form>
                     </td>
                 </tr>
-                {% endfor %}
+                {% endif %} {% endfor %}
             </tbody>
         </table>
     </div>
@@ -174,14 +174,11 @@
                     </span>
                 </div>
                 {% endfor %}
-
             </div>
-
         </div>
-
-
     </div>
 </div>
+
 
 <!-- Expense charts -->
 <div class="flex">
@@ -196,6 +193,7 @@
     </div>
 
 </div>
+
 
 <!-- javascript for charts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
@@ -300,4 +298,3 @@
         }
     });
 </script>
-{% else %} {% include 'myapp/user-index.html' %} {% endif %} {% endblock %}
